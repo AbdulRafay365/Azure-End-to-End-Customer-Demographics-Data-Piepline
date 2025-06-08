@@ -8,7 +8,7 @@ This project demonstrates an end-to-end cloud data pipeline on Microsoft Azure, 
 
 ![High Level Architecture](https://github.com/user-attachments/assets/3325e7c7-0e3f-443b-b24c-e059248d55fa)
 
-**Adhoc Analysis**
+**Silver: Adhoc Analysis**
 ![image](https://github.com/user-attachments/assets/44d257c0-b4c7-40dc-a5f5-89e2b7d3090d)
 ![image](https://github.com/user-attachments/assets/07f4065d-c693-42ed-b0e6-ddfd3d58c70f)
 
@@ -23,4 +23,8 @@ https://app.powerbi.com/groups/me/reports/50ec7294-4eb3-4b1c-95b6-0263fc947780/8
 
 **Azure Data Factory: Pipeline**
 
-![image](https://github.com/user-attachments/assets/8c3fa954-969e-44c6-9051-c25b609646ff)
+![image](https://github.com/user-attachments/assets/8c3fa954-969e-44c6-9051-c25b609646ff) 
+
+**Gold: Star Schema**
+![image](https://github.com/user-attachments/assets/7daf7cb3-8d90-4c4b-8c3f-770940198024)
+
