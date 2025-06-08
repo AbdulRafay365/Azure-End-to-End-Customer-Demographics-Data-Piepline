@@ -1,0 +1,6 @@
+selected resource name:		ds_sink_dynamic
+selected resource type:		dataset
+factory name:			abdulrafayadf
+factory location:		eastus
+subscription id:		1de05838-e056-4cb7-9f1c-9701f6a91c33
+time of download (UTC):		Sun, 08 Jun 2025 20:26:03 GMT
