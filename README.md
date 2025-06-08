@@ -14,8 +14,8 @@ This project demonstrates an end-to-end cloud data pipeline on Microsoft Azure, 
 
 
 **Final Dashboard**
-![image](https://github.com/user-attachments/assets/8408b80d-db3b-428c-aa0e-4d476d7fcc03)
-![image](https://github.com/user-attachments/assets/f61b0a44-75c1-4b52-8bc8-4db90b9151bc)
+
+https://github.com/user-attachments/assets/cea8a7a1-4418-4a1c-8c36-a5faf319bc1f
 
 **Dashboard Link**
 
@@ -27,4 +27,7 @@ https://app.powerbi.com/groups/me/reports/50ec7294-4eb3-4b1c-95b6-0263fc947780/8
 
 **Gold: Star Schema**
 ![image](https://github.com/user-attachments/assets/7daf7cb3-8d90-4c4b-8c3f-770940198024)
+
+
+
 
