@@ -299,11 +299,12 @@ df.write.format("parquet")\
 
 Ran adhoc analyses using SQL views and databricks visualizations.
 
+![image](https://github.com/user-attachments/assets/e5cc80ae-1175-4b06-9c29-9a88c55ab87e)
+![image](https://github.com/user-attachments/assets/16bcc7ad-2db7-4270-9681-8bdb5ac55bd9)
 
+**Note:** The left word cloud is Sub Category by transactions and the right one is by revenue. 
 
-
-
-#### Gold Layer (Business Ready)
+### Gold Layer Implementation: Business Ready Views
 - Created star schema dimensional model
 - Built optimized views for analytics
 ![Star Schema Model](https://github.com/user-attachments/assets/7daf7cb3-8d90-4c4b-8c3f-770940198024)
