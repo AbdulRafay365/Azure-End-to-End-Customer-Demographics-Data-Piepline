@@ -246,13 +246,62 @@ graph LR
   <img src= "https://github.com/user-attachments/assets/8c3fa954-969e-44c6-9051-c25b609646ff" width"500">
 </div>
 
-#### Silver Layer Implementation
-- Performed data type conversions
-- Handled NULL values and data quality checks
-- Established entity relationships
-- Implemented normalization
+### Silver Layer Implementation: Conversions and Transformations
+
+#### Key Data Processing Steps
+
+**1) Data Ingestion**
+
+```python
+# Authenticate with Azure Data Lake
+spark.conf.set("fs.azure.account.auth.type...", "OAuth")
+spark.conf.set("fs.azure.account.oauth.provider.type...", "...")
 ![Silver Layer Transformations](https://github.com/user-attachments/assets/44d257c0-b4c7-40dc-a5f5-89e2b7d3090d)
 ![Data Validation](https://github.com/user-attachments/assets/07f4065d-c693-42ed-b0e6-ddfd3d58c70f)
+```
+
+**2) Core Transformations**
+   
+2.1 Calendar Data:
+
+``` python
+df_calendar = df_calendar\
+    .withColumn('Month', month(col("Date"))\
+    .withColumn('Year', year(col("Date")))
+```
+
+2.2 Customer Data:
+
+```python
+df_customers = df_customers.withColumn(
+    "fullname", 
+    concat_ws(" ", col('prefix'), col("firstname"), col('lastname'))
+)
+```
+
+**3) Data Quality & Standardization**
+
+* Converted all datasets from CSV to Parquet format
+* Maintained original schemas while adding derived columns
+* Ensured consistent data types across all tables
+
+**4) Storage Optimization**
+
+``` python
+# Write to Silver Layer in Parquet format
+df.write.format("parquet")\
+    .mode("ignore")\
+    .option("path", "abfss://silver@.../[table]")\
+    .save()
+```
+
+**5) Key Analytical Views Created**
+
+Ran adhoc analyses using SQL views and databricks visualizations.
+
+
+
+
 
 #### Gold Layer (Business Ready)
 - Created star schema dimensional model
