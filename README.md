@@ -14,7 +14,7 @@ This project implements a **production-grade data pipeline** on Microsoft Azure,
 ![Medallion Architecture Pipeline](https://github.com/user-attachments/assets/3325e7c7-0e3f-443b-b24c-e059248d55fa)  
 *Visualized with Lucidchart*
 
-### Repo Structure
+## Repo Structure
 
 ```
 📦 AbdulRafay365
