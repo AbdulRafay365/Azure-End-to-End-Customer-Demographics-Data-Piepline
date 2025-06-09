@@ -17,17 +17,19 @@ This project implements a **production-grade data pipeline** on Microsoft Azure,
 ## Repo Structure
 
 ```
-📦 AbdulRafay365
+📦 End-to-End-Data-Engineering-Pipeline-in-Azure-and-Power-BI
 ├── 📁 Data Visualization
 ├── 📁 Datasets
 │   └── 📁 Data
 ├── 📁 Documents
 ├── 📁 Scripts
+│   ├── 📁 Bronze
+│   ├── 📁 Silver
 │   └── 📁 Gold
-│       └── 📁 Schema
 ├── 📁 Tests
 ├── 📄 MIT License
 └── 📄 README.md
+
 ```
 
 ## Data Acquisition
