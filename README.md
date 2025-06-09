@@ -320,7 +320,7 @@ df.write.format("parquet")\
 
 **5) Key Analytical Views Created**
 
-Ran adhoc analyses using SQL views and databricks visualizations.
+Ran adhoc analyses using SQL views and Databricks visualizations.
 
 ![image](https://github.com/user-attachments/assets/e5cc80ae-1175-4b06-9c29-9a88c55ab87e)
 ![image](https://github.com/user-attachments/assets/16bcc7ad-2db7-4270-9681-8bdb5ac55bd9)
