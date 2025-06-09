@@ -246,7 +246,7 @@ graph LR
   <img src= "https://github.com/user-attachments/assets/8c3fa954-969e-44c6-9051-c25b609646ff" width"500">
 </div>
 
-#### Silver Layer (Cleansed)
+#### Silver Layer Implementation
 - Performed data type conversions
 - Handled NULL values and data quality checks
 - Established entity relationships
