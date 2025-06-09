@@ -35,11 +35,216 @@ This project implements a **production-grade data pipeline** on Microsoft Azure,
 | **Infrastructure** | Azure Active Directory, Docker      |
 | **Design**      | Lucidchart                          |
 
-### Medallion Architecture Implementation
+## Medallion Architecture Implementation
 
-#### Bronze Layer (Raw)
-- **ADF Pipeline**: Ingested raw CSV files with schema-on-read
-![Bronze Layer Pipeline](https://github.com/user-attachments/assets/8c3fa954-969e-44c6-9051-c25b609646ff)
+### Bronze Layer Implementation: Dynamic GitHub Data Ingestion
+#### Architecture Components
+
+``` mermaid
+graph TD
+    A[GitHub Raw CSV] -->|Linked Service| B(ADF)
+    B -->|Parameterized| C[Lookup Activity]
+    C -->|Dynamic Values| D[ForEach Loop]
+    D -->|Per File| E[Copy Activity]
+    E --> F[Data Lake Raw Zone]
+```
+
+**1) Linked Services Configuration**
+   
+1.1 GitHub Linked Service (githublinkedservice)
+
+``` json
+{
+    "name": "githublinkedservice",
+    "type": "HttpServer",
+    "typeProperties": {
+        "url": "https://raw.githubusercontent.com/",
+        "authenticationType": "Anonymous"
+    }
+}
+```
+
+* Purpose: Establishes connection to GitHub's raw content domain
+* Key Feature: Anonymous access to public repositories
+* Security: No credentials needed (public data)
+
+1.2 Data Lake Linked Service (storagedatalake)
+
+```json
+{
+    "name": "storagedatalake",
+    "type": "AzureBlobFS",
+    "typeProperties": {
+        "url": "https://abdulrafayawstorage.dfs.core.windows.net/"
+    }
+}
+```
+* Storage Target: Your Azure Data Lake Gen2 account
+* Authentication: Uses encrypted credential (automatically handled by ADF)
+
+**2) Parameterized Datasets**
+   
+2.1 Control Dataset (ds_git_parameters)
+
+```json
+{
+    "location": {
+        "type": "AzureBlobFSLocation",
+        "fileName": "git.json",
+        "fileSystem": "parameters"
+    }
+}
+```
+
+Contains: JSON file with array of file configurations:
+
+``` json
+[
+  {
+    "p_rel_url": "AbdulRafay365/.../Product.csv",
+    "p_sink_folder": "products",
+    "p_file_name": "products_raw_20250608.txt"
+  },
+]
+```
+
+Dynamic Fields:
+* p_rel_url: GitHub relative path
+* p_sink_folder: Target folder in Data Lake
+* p_file_name: Output filename
+
+2.2 Source Dataset (ds_git_dynamic)
+
+```json
+{
+    "parameters": {"p_rel_url": "String"},
+    "typeProperties": {
+        "location": {
+            "relativeUrl": "@dataset().p_rel_url"
+        }
+    }
+}
+```
+
+* Dynamic Behavior: Relative URL populated at runtime
+* File Format: CSV with first row as header
+
+2.3 Sink Dataset (ds_sink_dynamic)
+
+``` json
+{
+    "parameters": {
+        "p_sink_folder": "String",
+        "p_file_name": "String"
+    },
+    "typeProperties": {
+        "location": {
+            "folderPath": "@dataset().p_sink_folder",
+            "fileName": "@dataset().p_file_name",
+            "fileSystem": "rawdata"
+        }
+    }
+}
+```
+
+* Bronze Layer Location: rawdata container
+* Dynamic Pathing: Folder structure created per file type
+
+**3) Pipeline Execution Flow (gittorawdatadynamic)**
+   
+3.1 Step 1: Lookup Activity
+
+``` json
+{
+    "name": "LookupGit",
+    "type": "Lookup",
+    "dataset": {
+        "referenceName": "ds_git_parameters"
+    }
+}
+
+```
+* Action: Reads git.json from parameters container
+* Output: Array of file configurations
+
+3.2 Step 2: ForEach Loop
+
+``` json
+{
+    "name": "ForEachGit",
+    "items": "@activity('LookupGit').output.value",
+    "activities": [
+        {
+            "name": "dynamiccopy",
+            "type": "Copy",
+            "inputs": [{
+                "parameters": {
+                    "p_rel_url": "@item().p_rel_url"
+                }
+            }],
+            "outputs": [{
+                "parameters": {
+                    "p_sink_folder": "@item().p_sink_folder",
+                    "p_file_name": "@item().p_file_name"
+                }
+            }]
+        }
+    ]
+}
+```
+
+Dynamic Processing:
+
+* Iterates through each file definition
+* Passes parameters to copy activity
+* Maintains original file structure in Data Lake
+
+3.3 Step 3: Copy Activity
+
+* Source: GitHub file via HTTP (@dataset().p_rel_url)
+* Sink: Data Lake with parameterized path
+* Transformation: None (pure 1:1 copy for bronze layer)
+* File Handling: Converts CSV to TXT (controlled by sink dataset)
+* Preserves header row
+
+3.4 Key Dynamic Patterns
+
+Parameter Propagation:
+
+```mermaid
+graph LR
+    A[Control JSON] --> B(Lookup)
+    B --> C{ForEach}
+    C -->|p_rel_url| D[Source DS]
+    C -->|p_sink_folder| E[Sink DS]
+    C -->|p_file_name| E
+```
+
+**Runtime Binding:**
+
+* All paths resolved during pipeline execution
+* No hardcoded filenames or paths
+* Extensible Design:
+* New files added by updating git.json
+* No pipeline modifications needed
+
+**Bronze Layer Characteristics**
+
+* Data Fidelity: Exact byte-for-byte copy of source
+* Metadata Preservation: Original filenames stored in path
+* Auditability: Timestamps in filenames (e.g., _20250608)
+* Partitioning Ready: Folder structure enables future processing
+
+**This implementation demonstrates a production-grade pattern for:**
+
+* Dynamic source-to-landing workflows
+* Metadata-driven pipelines
+* Scalable file ingestion patterns
+  
+**ADF Pipeline**
+<div align="center">
+  <img src= "https://github.com/user-attachments/assets/8c3fa954-969e-44c6-9051-c25b609646ff" width"500">
+</div>
 
 #### Silver Layer (Cleansed)
 - Performed data type conversions
