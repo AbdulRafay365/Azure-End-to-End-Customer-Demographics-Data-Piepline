@@ -16,6 +16,12 @@ This project implements a **production-grade data pipeline** on Microsoft Azure,
 
 ## Data Acquisition
 
+**About**
+
+The AdventureWorks dataset by Microsoft is a sample relational database designed for demonstrating business data scenarios, especially in sales, purchasing, product management, and HR. It represents a fictional bike manufacturing company.
+
+For our project, we’re using the 2015, 2016, and 2017 versions of the dataset to analyze trends across multiple years and gain deeper insights into product performance, customer behavior, and business operations.
+
 **Initial Approach:**
 - Attempted to restore AdventureWorks `.bak` file using SQL Edge in Docker (Mac compatibility solution)
 
