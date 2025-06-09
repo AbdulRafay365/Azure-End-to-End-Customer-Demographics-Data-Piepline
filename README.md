@@ -26,7 +26,6 @@ This project implements a **production-grade data pipeline** on Microsoft Azure,
 │   ├── 📁 Bronze
 │   ├── 📁 Silver
 │   └── 📁 Gold
-├── 📁 Tests
 ├── 📄 MIT License
 └── 📄 README.md
 
