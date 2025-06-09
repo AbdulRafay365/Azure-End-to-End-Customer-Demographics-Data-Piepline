@@ -313,6 +313,7 @@ Ran adhoc analyses using SQL views and databricks visualizations.
 ### Gold Layer Implementation: Business Ready Views
 
 #### Objective
+
 Transform cleansed Silver data into a **star schema** optimized for:
 * Self-service BI (Power BI)
 * Ad-hoc analytics
@@ -320,12 +321,14 @@ Transform cleansed Silver data into a **star schema** optimized for:
 
 #### Technical Implementation
 
-#### 1. Star Schema Design
+**1) Star Schema Design**
+
 **Components:**
+
 * 1 Fact Table: `Sales_Fact` (transactions + returns)
 * 4 Dimension Tables: `Products`, `Customers`, `Territories`, `Calendar`
 
-**Key Optimizations:**
+**1.1 Key Optimizations:**
 
 ```sql
 -- Materialized as External Tables in Parquet format
@@ -344,9 +347,10 @@ SELECT
 FROM silver.sales s
 LEFT JOIN silver.returns r ON s.ProductKey = r.ProductKey;
 ```
-### 2. Critical Code Explained
 
-**Dynamic Date Dimension**
+**2) Critical Code Explained**
+
+**2.1 Dynamic Date Dimension**
 
 ```sql
 CREATE VIEW gold.vw_Calendar_Dim AS
@@ -359,7 +363,7 @@ FROM silver.calendar;
 
 Why It Matters: Enables time-intelligence calculations (YTD, QoQ growth) in Power BI.
 
-Product Hierarchy Flattening
+**2.2 Product Hierarchy Flattening**
 
 ``` SQL
 
@@ -376,8 +380,9 @@ JOIN silver.product_categories cat ON sub.CategoryKey = cat.CategoryKey;
 
 Optimization: Pre-joins eliminate runtime joins for BI tools.
 
-3. Deployment Architecture
-Step 1: Ingest from Silver (Delta Lake)
+**3) Deployment Architecture**
+
+**3.1 Ingest from Silver (Delta Lake)**
 
 ``` Python
 
@@ -386,7 +391,7 @@ df_silver = spark.read.format("delta").load("abfss://silver@storage.dfs.core.win
 df_gold = transform_to_star_schema(df_silver)  # Custom logic
 ```
 
-Step 2: Push to Gold (Parquet)
+**3.2 Push to Gold (Parquet)**
 
 ``` SQL
 
@@ -400,12 +405,12 @@ WITH (
 AS SELECT * FROM gold.vw_Sales_Fact;
 ```
 
-Key Configurations:
+**Key Configurations:**
 
 Partitioning: By YEAR(OrderDate)
 Compression: Snappy (balanced speed/ratio)
 
-### 4. Business Impact
+**4) Business Impact**
 
 | Metric             | Before  | After   |
 | :----------------- | :------ | :------ |
@@ -413,26 +418,28 @@ Compression: Snappy (balanced speed/ratio)
 | Storage Efficiency | 120 GB  | 45 GB   |
 | Refresh Time (PBI) | 8 min   | 90 sec  |
 
-Final Star Schema
+**Final Star Schema**
 <div>
   <img src="https://github.com/user-attachments/assets/7daf7cb3-8d90-4c4b-8c3f-770940198024", width"1000">
 </div>
 
-Relationships:
+**Relationships:**
 
-Fact table connects to dimensions via surrogate keys (ProductKey, CustomerKey)
-Snowflaked dimensions avoided for simplicity
-Next Steps:
-See /scripts/gold/ for:
+* Fact table connects to dimensions via surrogate keys (ProductKey, CustomerKey)
+* Star Schema dimensions for data integrity and optimization
+* See /scripts/gold/ for full code.
 
-Partitioning strategies
-Incremental load pipelines
-Data quality checks
+### Business Intelligence Delivery
 
+#### Power BI Dashboard
+[Interactive Sales Dashboard](https://github.com/user-attachments/assets/cea8a7a1-4418-4a1c-8c36-a5faf319bc1f)
 
-## Business Intelligence Delivery
+#### Key Features: 
+* Data pulled from Azure Datalake Gen 2/Gold/ using Azure Parquet connection
+* Real-time KPIs: Revenue, Returns, and Customer Churn and Purchases
+* Drill-through: Product → Category → Subcategory hierarchy
+* Sales Trends: Quarterly sales trends by country
+* Time Intelligence: YoY growth comparisons
+* Click the video link above for a demo
 
-### Power BI Dashboard
-![Interactive Sales Dashboard](https://github.com/user-attachments/assets/cea8a7a1-4418-4a1c-8c36-a5faf319bc1f)
-
-🔗 [Live Dashboard Access](https://app.powerbi.com/groups/me/reports/50ec7294-4eb3-4b1c-95b6-0263fc947780/8c6c6c64e634a40d29d9?experience=power-bi&bookmarkGuid=607f88eba09b02029605)
+🔗 [Live Dashboard Access (Sign-in Needed)](https://app.powerbi.com/groups/me/reports/50ec7294-4eb3-4b1c-95b6-0263fc947780/8c6c6c64e634a40d29d9?experience=power-bi&bookmarkGuid=607f88eba09b02029605)
