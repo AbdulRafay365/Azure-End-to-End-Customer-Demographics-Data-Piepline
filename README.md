@@ -1,4 +1,4 @@
-# Adventure Works: End-to-End Data Engineering Pipeline in Azure & Power BI
+# End-to-End Data Engineering Pipeline in Azure & Power BI
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/9660a7e8-59df-4d1f-a43a-c3ddc3781b22" alt="Microsoft Azure Logo" width="200">
