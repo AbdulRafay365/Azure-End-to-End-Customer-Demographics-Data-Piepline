@@ -8,6 +8,12 @@
 
 This project implements a **production-grade data pipeline** on Microsoft Azure, transforming raw sales data from Adventure Works into actionable business intelligence through a **medallion architecture**. The solution delivers a self-service Power BI dashboard powered by an optimized star schema model.
 
+## Final Product
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/35d810e5-c7c8-49c6-9434-9bd447194723" alt="Microsoft Azure Logo" width="1000">
+</div>
+
 ## Solution Architecture
 
 ### High-Level Design
