@@ -449,7 +449,7 @@ Compression: Snappy (balanced speed/ratio)
 ### Business Intelligence Delivery
 
 #### Power BI Dashboard
-https://github.com/user-attachments/assets/f688a7d8-534c-4205-951c-8a4cb2d39063
+https://github.com/user-attachments/assets/08417704-0113-485b-96fc-a3b4cc2f9dd2
 
 
 #### Key Features: 
