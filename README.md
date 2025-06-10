@@ -449,7 +449,8 @@ Compression: Snappy (balanced speed/ratio)
 ### Business Intelligence Delivery
 
 #### Power BI Dashboard
-[Interactive Sales Dashboard](https://github.com/user-attachments/assets/cea8a7a1-4418-4a1c-8c36-a5faf319bc1f)
+https://github.com/user-attachments/assets/f688a7d8-534c-4205-951c-8a4cb2d39063
+
 
 #### Key Features: 
 * Data pulled from Azure Datalake Gen 2/Gold/ using Azure Parquet connection
