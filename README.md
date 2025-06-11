@@ -67,6 +67,11 @@ For our project, we’re using the 2015, 2016, and 2017 versions of the dataset 
 ## Medallion Architecture Implementation
 
 ### Bronze Layer Implementation: Dynamic GitHub Data Ingestion
+
+#### Whats happening?
+
+This stage is about automatically copying CSV files from GitHub to Azure Data Lake, and renaming/placing them dynamically in folders. This is the concept of dynamic pipelines with parameterization.
+
 #### Architecture Components
 
 ``` mermaid
